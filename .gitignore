@@ -1,8 +1,14 @@
 # Compiled class file
-*.class
+.DS_Store
+.idea
 
-# Log file
+*.class
+# IDEA metadata and output
+*.iml
+*.ipr
+*.iws
 *.log
+# Log file
 
 # BlueJ files
 *.ctxt
