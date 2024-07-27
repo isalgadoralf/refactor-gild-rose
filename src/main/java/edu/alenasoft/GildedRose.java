@@ -1,6 +1,7 @@
 package edu.alenasoft;
 
-import java.util.ArrayList;
+import edu.alenasoft.strategy.UpdateStrategy;
+
 import java.util.List;
 
 public class GildedRose {
@@ -16,6 +17,12 @@ public class GildedRose {
 
   public static List<Item> items ;
 
+  private static final UpdateStrategy otherItemStrategy = new edu.alenasoft.strategy.OtherItem();
+  private static final UpdateStrategy agedBrieStrategy = new edu.alenasoft.strategy.AgedBrie();
+  private static final UpdateStrategy sulfurasStrategy = new edu.alenasoft.strategy.Sulfuras();
+  private static final UpdateStrategy backstagePassStrategy = new edu.alenasoft.strategy.BackstagePasses();
+  private static final UpdateStrategy conjuredItemStrategy = new edu.alenasoft.strategy.Conjured();
+
   public static void main(String[] args) {
 
     System.out.println("OMGHAI!");
@@ -28,18 +35,33 @@ public class GildedRose {
     items.add(new Conjured("Conjured Mana Cake", 3, 6));
 
 
+
     updateQuality();
 
     System.out.println(items);
   }
   public static void updateQuality() {
     for (Item item : items) {
-      if (item instanceof UpdateItem) {
-        ((UpdateItem) item).updateQuality();
-      }
+      getUpdateStrategy(item).updateQuality(item);
     }
 
   }
+
+  private static UpdateStrategy getUpdateStrategy(Item item) {
+    switch (item.getName()) {
+      case AGED_BRIE:
+        return agedBrieStrategy;
+      case SULFURAS:
+        return sulfurasStrategy;
+      case BACKSTAGE_PASSES:
+        return backstagePassStrategy;
+      case CONJURED:
+        return conjuredItemStrategy;
+      default:
+        return otherItemStrategy;
+    }
+  }
+
   public static void updateQuality2() {
     for (int i = 0; i < items.size(); i++) {
       if ((!AGED_BRIE.equals(items.get(i).getName()))
